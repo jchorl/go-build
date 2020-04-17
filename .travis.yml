@@ -1,9 +1,24 @@
 arch:
-- arm64
+- amd64
 os: linux
 dist: bionic
 language: shell
-
-script: make image
-env:
+jobs:
+  include:
+  - script:
+    - make image
+  - arch: arm64
+    script:
+    - make image
+    env:
     - BUILDARCH=armv71
+deploy:
+- provider: script
+  script: bash deploy.sh $DOCKER_USERNAME $DOCKER_PASSWORD
+  on:
+    branch: master
+env:
+  global:
+  - DEFAULT_IMAGE=jchorl/go-build:latest
+  - DOCKER_USERNAME=jchorl
+  - secure: d2rpDMSJQ77DmCk34UpBQMVcv3JBi4EwIoP6ZxbTE5beipWSrPeU8ZoseywFtmDcbFBtAclOe2SoUdSwyxwKnTZ4UT/k094cXflE3YbEdRpQo3tQIR4ef+qX+3aiqePvBOb3+vex/sF19t3toIcLKaf34e9rf8Cidj/QdX96YuShogGAGOseHnn0zKGe7nCWBUzCm0DSO/v1IgE6XJZzUmHfjKJNY3smAoTAOTAA4WWe/1oOatV57SYHmazPuvHJ2ewEHcOFPhMBdxRZSmrS93PTIB81NUtgkoEMtn5guPZqJ4JD2AlQNX4dsDFafSXUqmyINaFcgkbaeri12mKzq863JYt8LkBYOoBcQtgyWlwyt4aCmTdmu9zRlW6usSim/miWyZe7+cgbFqlWC8y9b7uGAG6gGjoSs9uJLn0EWx+F6rM0wNsv6fTxnrRkNGs1frBT2/q5JOxE39MTP1199s2Kfdx0r33oPDsZjbl/b25HlpGTH173zqMkLEf+UWd9GxOO7Bwwm6nQRQJWhZZejTUz3sk6roAHtfdw+MHWvrdse7bO4xMNegwr4AiVOdQvX2LG8OpJQExVYL+J99xYgAqMYdc5zpfkrc1EMSPJVhlvXFFQce3TbZcpHn0EGSI8jRuQuyJy2BX5D+OuV+B/SJUu/btPgh6Wmg9Zqh2pOV4=
