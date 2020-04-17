@@ -1,7 +1,7 @@
 FROM alpine:3.10 as qemu
 
 ARG QEMU_VERSION=2.9.1-1
-ARG QEMU_ARCHS="armv71"
+ARG QEMU_ARCHS="arm"
 
 RUN apk --update add curl
 
