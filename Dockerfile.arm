@@ -86,4 +86,4 @@ RUN curl -sSL https://github.com/estesp/manifest-tool/releases/download/${MANIFE
     mv manifest-tool /usr/bin/
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-ENTRYPOINT ["/sbin/tini", "--", "/usr/local/bin/entrypoint.sh"]
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
