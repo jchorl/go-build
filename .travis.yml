@@ -5,8 +5,6 @@ dist: bionic
 language: shell
 jobs:
   include:
-  - script:
-    - make image
   - arch: arm64
     script:
     - make image
