@@ -40,6 +40,16 @@ RUN echo 'APT::Default-Release "stable";' > /etc/apt/apt.conf.d/99defaultrelease
         ca-certificates gcc libc-dev bsdmainutils strace && \
     rm -rf /var/lib/apt/lists/*
 
+# su-exec is used by the entrypoint script to execute the user's command with the right UID/GID.
+# (sudo doesn't work easily in a container.)  The version was current master at the time of writing.
+ARG SU_EXEC_VER=212b75144bbc06722fbd7661f651390dc47a43d1
+RUN  set -ex; \
+     curl -o /sbin/su-exec.c https://raw.githubusercontent.com/ncopa/su-exec/${SU_EXEC_VER}/su-exec.c; \
+     gcc -Wall /sbin/su-exec.c -o/sbin/su-exec; \
+     chown root:root /sbin/su-exec; \
+     chmod 0755 /sbin/su-exec; \
+     rm /sbin/su-exec.c
+
 # Disable ssh host key checking
 RUN echo 'Host *' >> /etc/ssh/ssh_config \
   && echo '    StrictHostKeyChecking no' >> /etc/ssh/ssh_config
